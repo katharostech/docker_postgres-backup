@@ -16,6 +16,12 @@ The backup will be written to `/backup/db-backup.archive.gz`. Backups will be ru
 
 *Default:* `0 0 * * *`
 
+### `INIT_BACKUP`
+
+Set to `true` to do a backup when the container is started.
+
+*Default:* `false`
+
 ### `MONGO_HOST`
 
 *Default:* mongodb
