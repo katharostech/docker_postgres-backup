@@ -1,9 +1,6 @@
-FROM mongo:4.0
+FROM postgres:10.4-alpine
 
-RUN apt-get update && \
-    apt-get install --no-install-suggests -y wget && \
-    apt-get clean -y && \
-    rm -rf /var/lib/apt/lists/*
+RUN apk add --no-cache wget
 
 # Install Supercronic for Cron jobs
 ENV SUPERCRONIC_URL=https://github.com/aptible/supercronic/releases/download/v0.1.6/supercronic-linux-amd64 \
@@ -18,8 +15,11 @@ RUN wget "$SUPERCRONIC_URL" \
 
 # Default Environment Vars
 ENV CRON_SCHEDULE 0 0 * * *
-ENV MONGO_HOST mongodb
-ENV MONGO_PORT 27017
+ENV PG_HOST postgres
+ENV PG_PORT 5432
+ENV PG_USER postgres
+ENV PG_PASSWORD password
+ENV PG_DB postgres
 
 # Create backup storage dir
 RUN mkdir -p /backup

@@ -1,14 +1,14 @@
-# Docker MongoDB Backup
+# Docker Postgres Backup
 
-Extreemly simple MongoDB backup container that simply dumps MongoDB to a file on a cron schedule.
+Extreemly simple Postgres backup container that simply dumps a Postgresql DB to a file on a cron schedule.
 
 ## Usage
 
 ```
-docker run -v backup-volume:/backup kadimasolutions/mongodb-backup
+docker run -v backup-volume:/backup kadimasolutions/postgres-backup
 ```
 
-The backup will be written to `/backup/db-backup.archive.gz`. Backups will be run on the `CRON_SCHEDULE` and will replace the previously taken backup at each run.
+The backup will be written to `/backup/db-backup.sql.gz`. Backups will be run on the `CRON_SCHEDULE` and will replace the previously taken backup at each run.
 
 ## Environment Variables
 
@@ -22,11 +22,22 @@ Set to `true` to do a backup when the container is started.
 
 *Default:* `false`
 
-### `MONGO_HOST`
+### `PG_HOST`
 
-*Default:* mongodb
+*Default:* postgres
 
-### `MONGO_PORT`
+### `PG_PORT`
 
-*Default:* `27017`
+*Default:* `5432`
 
+### `PG_USER`
+
+*Default:* `postgres`
+
+### `PG_PASSWORD`
+
+*Default:* `password`
+
+### `PG_DB`
+
+*Default:* `postgres`
