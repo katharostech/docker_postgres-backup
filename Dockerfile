@@ -1,4 +1,5 @@
-FROM postgres:10.4-alpine
+ARG PG_VERSION=11.2
+FROM postgres:${PG_VERSION}-alpine
 
 RUN apk add --no-cache wget
 
