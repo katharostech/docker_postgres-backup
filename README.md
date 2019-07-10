@@ -41,3 +41,9 @@ Set to `true` to do a backup when the container is started.
 ### `PG_DB`
 
 **Default:** `postgres`
+
+### `FAILURE_HOOK`
+
+This allows you to insert a command will be run when a backup fails. You can use this to trigger a `curl` on a webhook to your chat software or something similar.
+
+**Default:** `true`

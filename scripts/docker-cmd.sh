@@ -1,10 +1,12 @@
 #!/bin/bash
 
-backup_cmd="echo '$PG_PASSWORD' | pg_dump --host=$PG_HOST --port=$PG_PORT --username=$PG_USER $PG_DB | gzip > /backup/db-backup.sql.gz"
+backup_cmd="echo '$PG_PASSWORD' | pg_dump --host=$PG_HOST --port=$PG_PORT --username=$PG_USER $PG_DB | gzip > /backup/db-backup.sql.gz \
+            || $FAILURE_HOOK"
 
 # Write out backup script
-echo "#!/bin/bash" > run-backup.sh
-echo "$backup_cmd" > run-backup.sh
+echo "#!/bin/bash" >> run-backup.sh
+echo 'set -o pipefail' >> /run-backup.sh
+echo "$backup_cmd" >> run-backup.sh
 chmod 744 /run-backup.sh
 
 if [ "$INIT_BACKUP" = "true" ]; then
