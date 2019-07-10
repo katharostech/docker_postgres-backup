@@ -1,0 +1,78 @@
+---
+kind: pipeline
+name: build
+
+steps:
+  # Make sure image builds
+  - name: build_postgres-11
+    image: banzaicloud/drone-kaniko:0.3.2
+    depends_on:
+      - clone
+    settings:
+      build_args:
+        - PG_VERSION=11.4
+
+  - name: build_postgres-10
+    image: banzaicloud/drone-kaniko:0.3.2
+    depends_on:
+      - clone
+    settings:
+      build_args:
+        - PG_VERSION=10.9
+
+trigger:
+  ref:
+    exclude:
+      - refs/tags/v*
+  branch:
+    exclude:
+      - feature/*
+
+---
+kind: pipeline
+name: release
+
+steps:
+  - name: release_postgres-11
+    image: banzaicloud/drone-kaniko:0.3.2
+    depends_on:
+      - clone
+    settings:
+      repo: katharostech/postgres-backup
+      build_args:
+        - PG_VERSION=11.4
+      tags:
+        - 11-${DRONE_TAG}
+        - latest
+      username:
+        from_secret: docker-username
+      password:
+        from_secret: docker-password
+    when:
+      ref:
+        - refs/tags/v*
+
+  - name: release_postgres-10
+    image: banzaicloud/drone-kaniko:0.3.2
+    depends_on:
+      - clone
+    settings:
+      repo: katharostech/postgres-backup
+      build_args:
+        - PG_VERSION=10.9
+      tags:
+        - 10-${DRONE_TAG}
+      username:
+        from_secret: docker-username
+      password:
+        from_secret: docker-password
+    when:
+      ref:
+        - refs/tags/v*
+
+trigger:
+  event:
+    - tag
+  ref:
+    - refs/tags/v*
+
