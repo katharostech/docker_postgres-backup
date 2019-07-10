@@ -1,5 +1,7 @@
 # Docker Postgres Backup
 
+[![Build Status](https://cloud.drone.io/api/badges/katharostech/docker_postgres-backup/status.svg)](https://cloud.drone.io/katharostech/docker_postgres-backup)
+
 Extreemly simple Postgres backup container that simply dumps a Postgresql DB to a file on a cron schedule.
 
 ## Usage
